@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Voting Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0eafc, #cfdef3);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+
+    .table {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .table thead {
+      background-color: #2c3e50;
+      color: #fff;
+    }
+
+    .winner-badge {
+      color: #f1c40f;
+      font-size: 1.3rem;
+    }
+
+    .alert {
+      font-size: 1.1rem;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .btn {
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .back-btn {
+      margin-top: 30px;
+    }
+
+    .emoji {
+      font-size: 1.4rem;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container text-center">
+    <h2><span class="emoji">📊</span>Voting Results</h2>
+
+    {% if visible %}
+      <table class="table table-hover shadow-sm">
+        <thead>
+          <tr>
+            <th>Candidate</th>
+            <th>Votes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for candidate in candidates %}
+            <tr>
+              <td>
+                {{ candidate[0] }}
+                {% if loop.index0 == 0 %}
+                  <span class="winner-badge" title="Top Candidate">👑</span>
+                {% endif %}
+              </td>
+              <td>{{ candidate[1] }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="alert alert-warning shadow-sm">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> Results have not been announced yet.
+      </div>
+    {% endif %}
+
+    <div class="back-btn">
+      <a href="/" class="btn btn-outline-dark">
+        <i class="bi bi-arrow-left-circle me-1"></i> Back to Home
+      </a>
+    </div>
+  </div>
+</body>
+</html>

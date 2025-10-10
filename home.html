@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voting System - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .main-container {
+            background: white;
+            width: 900px;
+            height: 500px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+        .main-container::before {
+            content: "";
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #6a11cb, #2575fc);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .left-section, .right-section {
+            flex: 1;
+            padding: 40px 30px;
+        }
+
+        .left-section {
+            background-color: #fff;
+        }
+
+        .right-section {
+            background-color: #f0f6ff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h2 {
+            color: #1546d4;
+            font-size: 26px;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        .button {
+            width: 100%;
+            padding: 14px;
+            background-color: #2563eb;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .options {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .options a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .options a:hover {
+            text-decoration: underline;
+        }
+
+        .vote-title {
+            font-size: 24px;
+            color: #1546d4;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .vote-desc {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .vote-button {
+            padding: 12px 30px;
+            background-color: #9333ea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .vote-button:hover {
+            background-color: #7e22ce;
+        }
+
+        .alert {
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Left Section: Admin Login -->
+        <div class="left-section">
+            <h2>Welcome to Voting System</h2>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% if msg %}
+                <div class="alert alert-danger">{{ msg }}</div>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('admin_login') }}">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" placeholder="Enter password" required>
+                </div>
+                <button class="button" type="submit">Login</button>
+            </form>
+
+            <div class="options">
+                Don't have an account? <a href="{{ url_for('admin_signup') }}">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Right Section: Voter -->
+        <div class="right-section">
+            <div class="vote-title">Voter Section</div>
+            <div class="vote-desc">Click below to cast your vote</div>
+            <form action="{{ url_for('voter_pin_entry') }}" method="get">
+                <button class="vote-button" type="submit">Vote</button>
+            </form>
+            <form action="{{ url_for('check_pin') }}" method="get">
+                <button class="vote-button" type="submit" style="background-color: #10b981;">View Result</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

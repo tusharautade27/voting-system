@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Candidate</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+
+  <div class="container mt-5">
+    <!-- Back Button -->
+    <a href="javascript:history.back()" class="btn btn-outline-secondary mb-3">
+      <i class="bi bi-arrow-left"></i> Back
+    </a>
+
+    <!-- Card Wrapper -->
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="card-title mb-4"><i class="bi bi-pencil-square"></i> Edit Candidate</h4>
+        <form method="POST">
+          <div class="mb-3">
+            <label for="name" class="form-label">Candidate Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ candidate_name }}" required />
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save2-fill"></i> Update Candidate
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

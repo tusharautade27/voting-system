@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cast Your Vote</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      max-width: 650px;
+      background-color: #ffffff;
+      border-radius: 20px;
+      padding: 40px;
+      margin-top: 60px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+    }
+
+    h2, h5 {
+      font-weight: 700;
+      color: #222;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #444;
+    }
+
+    .form-control {
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      border: 1px solid #ddd;
+    }
+
+    .form-control:focus {
+      border-color: #bbb;
+      box-shadow: 0 0 0 0.15rem rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      background-color: #222;
+      color: white;
+      border-radius: 12px;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #000;
+    }
+
+    .btn-home {
+      font-weight: 500;
+      background-color: #ffc107;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 16px;
+      text-decoration: none;
+      color: #000;
+    }
+
+    .btn-home:hover {
+      background-color: #e0a800;
+    }
+
+    .alert {
+      border-radius: 10px;
+    }
+
+    .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      font-size: 1rem;
+      text-decoration: none;
+      color: #666;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .back-arrow svg {
+      margin-right: 8px;
+    }
+
+    .back-arrow:hover {
+      color: #000;
+    }
+  </style>
+
+  <script>
+    function validateVoteForm() {
+      let total = 0;
+      document.querySelectorAll("input[name^='percentage_']").forEach(input => {
+        total += parseInt(input.value || 0);
+      });
+      if (total !== 100) {
+        alert("Total percentage must be exactly 100%.");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <!-- Back + Home Buttons -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <!-- Back -->
+      <a href="javascript:history.back()" class="back-arrow">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 5l-7 7 7 7"></path>
+        </svg>
+        Back
+      </a>
+
+      <!-- Home -->
+      <a href="/" class="btn-home">🏠 Home</a>
+    </div>
+
+    <h2 class="mb-4">Cast Your Vote</h2>
+
+    <form method="POST" onsubmit="return validateVoteForm()">
+      {% if 'name' in required_fields %}
+        <div class="mb-3">
+          <label for="name" class="form-label">Your Name:</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+      {% endif %}
+
+      {% if 'mobile' in required_fields and not session.voter_mobile %}
+        <div class="mb-3">
+          <label for="mobile" class="form-label">Your Mobile Number:</label>
+          <input type="text" class="form-control" id="mobile" name="mobile" required>
+        </div>
+      {% endif %}
+
+      {% if 'email' in required_fields and not session.voter_email %}
+        <div class="mb-3">
+          <label for="email" class="form-label">Your Email:</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+      {% endif %}
+
+      <h5 class="mt-4">Assign Vote Percentage to Candidates</h5>
+
+      {% for candidate in candidates %}
+        <div class="mb-3">
+          <label for="percentage_{{ candidate[0] }}" class="form-label">
+            {{ candidate[1] }} - Percentage:
+          </label>
+          <input type="number" class="form-control" name="percentage_{{ candidate[0] }}" id="percentage_{{ candidate[0] }}" min="0" max="100" required>
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn-submit mt-3">Submit Vote</button>
+    </form>
+
+    {% if msg %}
+      <div class="alert alert-info mt-4 text-center">{{ msg }}</div>
+    {% endif %}
+  </div>
+</body>
+</html>
