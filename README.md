@@ -37,5 +37,3 @@ mysql -u root -p < schema.sql
 python app.py
 ```
 
-## 📸 Screenshots
-[Add screenshots of your web app here]
